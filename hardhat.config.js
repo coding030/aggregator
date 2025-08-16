@@ -4,6 +4,12 @@ require("@nomicfoundation/hardhat-toolbox");
 module.exports = {
   solidity: "0.8.9",
   networks: {
-    localhost: {}
+    localhost: {},
+    hardhat: {
+      forking: {
+        url: "https://eth-mainnet.g.alchemy.com/v2/Ua4eFghdFAdInrxVmXQhAXG9fKPiIuvq",
+        blockNumber: 23123456
+      }
+    },
   },
 };
