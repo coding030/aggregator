@@ -4,24 +4,34 @@
 // You can also run a script with `npx hardhat run <script>`. If you do that, Hardhat
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
-const hre = require("hardhat");
+const { ethers } = require("hardhat");
 
 async function main() {
-  const NAME = 'Dapp University'
-  const SYMBOL = 'DAPP'
-  const MAX_SUPPLY = '1000000'
+  const [deployer] = await ethers.getSigners();
+  console.log("Deployer:", deployer.address);
 
-  // Deploy Token
-  const Token = await hre.ethers.getContractFactory('Token')
-  let token = await Token.deploy(NAME, SYMBOL, MAX_SUPPLY)
+  // Get suggested EIP-1559 fees from your forked node
+  const fee = await ethers.provider.getFeeData();
+  // fee = { maxFeePerGas, maxPriorityFeePerGas, gasPrice }
 
-  await token.deployed()
-  console.log(`Token deployed to: ${token.address}\n`)
+  const Aggregator = await ethers.getContractFactory("Aggregator");
+  const agg = await Aggregator.deploy({
+    maxFeePerGas: fee.maxFeePerGas,                 // e.g. ~2–5 gwei on fork
+    maxPriorityFeePerGas: fee.maxPriorityFeePerGas, // usually ~1–2 gwei
+  });
+  await agg.deployed();
+
+  console.log("Aggregator deployed to:", agg.address);
+
+  const AggregationRouter = await ethers.getContractFactory("AggregationRouter");
+  const aggRouter = await AggregationRouter.deploy({
+    maxFeePerGas: fee.maxFeePerGas,                 // e.g. ~2–5 gwei on fork
+    maxPriorityFeePerGas: fee.maxPriorityFeePerGas, // usually ~1–2 gwei
+  });
+  await aggRouter.deployed();
+
+  console.log("AggregationRouter deployed to:", aggRouter.address);
+
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+main().catch((e) => { console.error(e); process.exit(1); });

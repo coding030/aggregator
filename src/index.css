@@ -11,3 +11,42 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+body {
+  background: linear-gradient(135deg, #e8f5e9 0%, #b2dfdb 100%);
+  background-attachment: fixed;
+}
+
+.card {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: none;
+}
+
+/* --- Leaf Swap gradient button --- */
+.swap-btn {
+  background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%); /* green gradient */
+  color: white;
+  border: none;
+  font-weight: 600;
+  padding: 0.75rem;
+  border-radius: 12px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.swap-btn:hover:not(:disabled) {
+background: linear-gradient(135deg, #00b894 0%, #55efc4 100%);
+
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.swap-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+button.dropdown-toggle.btn.btn-outline-secondary {
+    width: 160px;
+}
