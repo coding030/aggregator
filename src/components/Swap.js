@@ -117,7 +117,7 @@ export default function Swap() {
     }
     loadBalance()
     return () => { cancelled = true }
-  }, [account, chainId, pair.tokenIn])
+  }, [account, chainId, pair.tokenIn, swapStatus,])
 
   const amountTooHigh = useMemo(() => {
     if (!balanceIn || !amountInWei) return false
